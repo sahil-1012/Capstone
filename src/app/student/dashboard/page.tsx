@@ -15,7 +15,7 @@ const getStatusColor = (status: string) => {
 };
 
 export default async function DashboardPage() {
-  const { data: groupData } = await getStudentGroupDetails('STU001');
+  const { data: groupData } = await getStudentGroupDetails();
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">

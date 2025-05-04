@@ -14,7 +14,7 @@ export const loginAction = async (userId: string, password: string) => {
     const user = await db.collection(isEmployee ? 'employees' : 'students').findOne({
         [isEmployee ? 'employeeId' : 'studentId']: userId
     });
-    
+
     if (!user || !user.password) return { success: false, message: 'Invalid employee ID or password' };
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -22,7 +22,7 @@ export const loginAction = async (userId: string, password: string) => {
 
     const token = jwt.sign({ userId: user._id.toString(), [isEmployee ? 'employeeId' : 'studentId']: userId }, JWT_SECRET, { expiresIn: '7d' });
 
-    setCookie('authToken', { token }, 'authToken');
+    await setCookie('authToken', { token }, 'token');
     return { success: true, message: 'Login successful', type: isEmployee ? 'employee' : 'student' }
 
 }

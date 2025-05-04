@@ -1,17 +1,23 @@
 import { getDB } from "@/lib/db";
 import { getCookie } from '../../utils/cookie';
+import jwt from 'jsonwebtoken';
+import { ObjectId } from "mongodb";
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
-export const getStudentGroupDetails = async (studentId: string) => {
+export const getStudentGroupDetails = async () => {
     try {
-    const token = jwt.sign({ userId: user._id.toString(), [isEmployee ? 'employeeId' : 'studentId']: userId }, JWT_SECRET, { expiresIn: '7d' });
 
         const studentIdToken = await getCookie('authToken');
-        get user_id from the toe n
+        if (!studentIdToken) throw new Error('No auth token found');
+
+        const decoded = jwt.verify(studentIdToken, JWT_SECRET) as { userId: string };
+        const user_id = decoded.userId;
+
         const db = await getDB();
         const studentsCol = db.collection('students');
         const groupsCol = db.collection('groups');
 
-        const student = await studentsCol.findbyId(user_id);
+        const student = await studentsCol.findOne({ _id: new ObjectId(user_id) });
         if (!student) return { success: false, message: '❌ Student not found.' };
 
         const group = await groupsCol.findOne({ memberIds: student._id });
