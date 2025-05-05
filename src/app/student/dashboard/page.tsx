@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, } from '@/co
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { getStudentGroupDetails } from '@/server/actions/getStudentGroupDetails';
+import Link from 'next/link';
+import { LogOut } from 'lucide-react';
 
 const getStatusColor = (status: string) => {
   const colors = {
@@ -21,9 +23,15 @@ export default async function DashboardPage() {
     <div className="min-h-screen p-6 bg-gray-50">
       <div className="max-w-7xl mx-auto space-y-6">
         <Card>
-          <CardHeader>
-            <CardTitle>Group Members</CardTitle>
-            <CardDescription>Your project team members</CardDescription>
+          <CardHeader className='flex flex-row justify-between'>
+            <div className='w-fit'>
+              <CardTitle>Group Members</CardTitle>
+              <CardDescription>Your project team members</CardDescription>
+            </div>
+            <Link href='/logout' className='inline-flex items-center px-5 py-3 text-sm h-fit font-medium text-gray-700 hover:text-red-600 rounded hover:bg-gray-100 transition-colors duration-200 ease-in-out'            >
+              <LogOut className="h-4 w-4 mr-1.5" />
+              Logout
+            </Link>
           </CardHeader>
 
           <CardContent>
@@ -77,7 +85,7 @@ export default async function DashboardPage() {
               </TableHeader>
 
               <TableBody>
-                {groupData?.projects?.map((project: { title: string; domain: string; status: string; review1: string; review2: string; review3: string;  }, index: string) => (
+                {groupData?.projects?.map((project: { title: string; domain: string; status: string; review1: string; review2: string; review3: string; }, index: string) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium">{project.title}</TableCell>
                     <TableCell>{project.domain}</TableCell>
