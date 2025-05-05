@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
     const AToken = await getCookie('authToken');
 
     const requestedPath = request.nextUrl.pathname;
-    const skipPaths = ['login', 'password', 'test', 'privacy-policy', 'terms-conditions', 'signup'];
+    const skipPaths = ['login', 'verify-otp', 'test', 'forgot-password', 'student/group-registration', 'signup'];
 
     if (skipPaths.some(prefix => requestedPath.startsWith(`/${prefix}`)) && !AToken)
         return NextResponse.next();
