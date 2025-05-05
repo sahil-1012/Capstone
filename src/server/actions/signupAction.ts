@@ -1,5 +1,4 @@
 'use server'
-
 import { getDB } from '@/lib/db'
 
 export const signupAction = async (officialEmailId: string, otp: string | number) => {
